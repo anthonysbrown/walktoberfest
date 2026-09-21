@@ -27,7 +27,7 @@ document.querySelector('#app').innerHTML = `
 <div class="eyebrow">INDIAN HILL · WORCESTER, MA</div>
 <h1 id="event-title">${icon('leaf')} Walktoberfest</h1>
 <div class="event-meta"><span>${icon('calendar')} Saturday, October 24, 2026</span><span>${icon('clock')} 5:00 PM</span></div>
-<p>A neighborhood walk with drinks and appetizers. We’ll gather at each house for a sip and a bite, then on to the next! If you want a tshirt text Tony at 508.360.7312, Also text for any questions!</p>
+<p>A neighborhood walk with drinks and appetizers. We’ll gather at each house for a drink and an app, then on to the next! If you want a tshirt text Tony at 508.360.7312, Also text for any questions!</p>
 </section>
 <section id="route" aria-labelledby="route-title">
 <div class="route-heading"><div><h2 id="route-title">The stops <span id="stop-count"></span></h2><p>Add your house and choose where it fits in the evening.</p></div><button class="button" data-add>${icon('plus')} Add your house</button></div>
