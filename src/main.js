@@ -26,9 +26,7 @@ document.querySelector('#app').innerHTML = `
 <header class="site-header"><div class="header-inner"><a class="header-logo" href="#event-title" aria-label="Walktoberfest event details"><img src="/logo/logo.png" alt="Walktoberfest — Indian Hill Social Club" width="320" height="207"></a><nav aria-label="Main navigation"><a href="#route">The stops</a><a href="#gallery">Photos</a></nav></div></header>
 <main class="page">
 <section class="event-details" aria-labelledby="event-title">
-<div class="eyebrow">INDIAN HILL · WORCESTER, MA</div>
-<h1 id="event-title">${icon('leaf')} Walktoberfest</h1>
-<div class="event-meta"><span>${icon('calendar')} Saturday, October 24, 2026</span><span>${icon('clock')} 5:00 PM</span></div>
+<h2><span>${icon('calendar')} Saturday, October 24, 2026</span><span>${icon('clock')} 5:00 PM</span></h2>
 <p>Walktoberfest is an Indian Hill Social Club event where you can host a short stop at your home and serve drinks or appetizers. You can host a stop or simply join us for the shenanigans! <br><br>If you would like a T-shirt or have any questions, text Tony at <a href="sms:508-360-7312">508-360-7312</a>.</p>
 </section>
 <section id="route" aria-labelledby="route-title">
