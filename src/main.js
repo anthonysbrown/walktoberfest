@@ -1,3 +1,4 @@
+import { photos, setupGallery } from './gallery.js';
 import Sortable from 'sortablejs';
 import { createRouteMap } from './map.js';
 import './style.css';
@@ -22,12 +23,13 @@ const icon = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
 const escape = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let route = structuredClone(initialRoute), mode = 'loading', busy = false, editingId = null, dragging = false;
 document.querySelector('#app').innerHTML = `
+<header class="site-header"><div class="header-inner"><a class="header-logo" href="#event-title" aria-label="Walktoberfest event details"><img src="/logo/logo.png" alt="Walktoberfest — Indian Hill Social Club" width="320" height="207"></a><nav aria-label="Main navigation"><a href="#route">The stops</a><a href="#gallery">Photos</a></nav></div></header>
 <main class="page">
 <section class="event-details" aria-labelledby="event-title">
 <div class="eyebrow">INDIAN HILL · WORCESTER, MA</div>
 <h1 id="event-title">${icon('leaf')} Walktoberfest</h1>
 <div class="event-meta"><span>${icon('calendar')} Saturday, October 24, 2026</span><span>${icon('clock')} 5:00 PM</span></div>
-<p>A neighborhood walk with drinks and appetizers. We’ll gather at each house for a drink and an app, then on to the next! If you want a tshirt text Tony at 508.360.7312, Also text for any questions!</p>
+<p>Walktoberfest is an Indian Hill Social Club event where you can host a short stop at your home and serve drinks or appetizers. You can host a stop or simply join us for the shenanigans! <br><br>If you would like a T-shirt or have any questions, text Tony at <a href="sms:508-360-7312">508-360-7312</a>.</p>
 </section>
 <section id="route" aria-labelledby="route-title">
 <div class="route-heading"><div><h2 id="route-title">The stops <span id="stop-count"></span></h2><p>Add your house and choose where it fits in the evening.</p></div><button class="button" data-add>${icon('plus')} Add your house</button></div>
@@ -35,9 +37,12 @@ document.querySelector('#app').innerHTML = `
 <aside class="map-panel" aria-label="Neighborhood map"><div class="map-toolbar"><span>All stops</span><button id="show-all-stops" class="edit-link">Show all</button></div><div id="neighborhood-map" aria-label="Map with numbered neighborhood stops"></div><div class="map-caption"><span id="map-status" role="status">Loading map…</span><button id="retry-map" class="edit-link" hidden>Retry locations</button><a id="directions" target="_blank" rel="noopener">Walking directions ${icon('arrow')}</a></div></aside></div>
 <p id="storage-status" class="storage-status" role="status">Loading the route…</p>
 </section>
+<section id="gallery" class="gallery-section" aria-labelledby="gallery-title"><div class="gallery-heading"><h2 id="gallery-title">Around the neighborhood</h2><p>A few moments from Walktoberfest.</p></div><div class="photo-grid">${photos.map((photo, index) => `<button type="button" class="photo-thumb" data-photo="${index}" aria-label="Open photo ${index + 1}: ${escape(photo.alt)}"><img src="${photo.src}" alt="${escape(photo.alt)}" loading="lazy" decoding="async" style="object-position:${photo.position || 'center'}"><span aria-hidden="true">View photo ${icon('plus')}</span></button>`).join('')}</div></section>
 </main>
+<dialog id="photo-viewer" aria-label="Walktoberfest photo gallery"><div class="viewer-toolbar"><span>Walktoberfest photos</span><button type="button" id="viewer-close" class="icon-button" aria-label="Close photo viewer">${icon('close')}</button></div><img id="viewer-image" alt=""><div class="viewer-footer"><button type="button" id="viewer-prev" class="icon-button" aria-label="Previous photo">${icon('arrow')}</button><p id="viewer-caption" aria-live="polite"></p><button type="button" id="viewer-next" class="icon-button" aria-label="Next photo">${icon('arrow')}</button></div></dialog>
 <dialog id="house-dialog"><form id="house-form"><div class="dialog-heading"><div><div class="eyebrow">HOUSE DETAILS</div><h2 id="dialog-title">Add your house.</h2></div><button type="button" class="icon-button" id="close-dialog" aria-label="Close">${icon('close')}</button></div><p>Share a few details so your neighbors know where to go.</p><label>Host or household name<input name="host" required maxlength="160" placeholder="Family Name" autocomplete="name"></label><label>Street address<input name="address" required maxlength="160" placeholder="ex: 15 Heroult Rd" autocomplete="street-address"><small>Worcester, MA 01606 · Visible to anyone with the link.</small></label><label>What are you serving? <span>(optional)</span><input name="offering" maxlength="160" placeholder="Warm pretzels"></label><div class="form-row"><label>Stop in the route<select name="position"></select></label></div><label>A note for your neighbors <span>(optional)</span><textarea name="notes" maxlength="500" rows="2" placeholder="Come around to the backyard!"></textarea></label><p id="form-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="delete-house" class="text-link danger" hidden>Remove house</button><button type="submit" class="button" id="save-house">Save house ${icon('arrow')}</button></div></form></dialog><div id="toast" role="status"></div>`;
 
+setupGallery();
 const routeMap = createRouteMap();
 const dialog = document.querySelector('#house-dialog');
 const form = document.querySelector('#house-form');
